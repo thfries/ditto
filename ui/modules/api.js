@@ -74,7 +74,7 @@ const config = {
   },
   ditto_3: {
     listConnections: {
-      path: '/api/2/connections',
+      path: '/api/2/connections?ids-only=true',
       method: 'GET',
       body: null,
       unwrapJsonPath: null,

@@ -259,10 +259,10 @@ function loadConnections() {
   let connectionSelected = false;
   API.callConnectionsAPI('listConnections', (connections) => {
     connections.forEach((connection) => {
-      const id = API.env() === 'ditto_2' ? connection : connection.id;
+      const id = (API.env() === 'ditto_2' || API.env() === 'ditto_3') ? connection : connection.id;
       const row = dom.tbodyConnections.insertRow();
       row.id = id;
-      if (API.env() === 'ditto_2') {
+      if (API.env() === 'ditto_2' || API.env() === 'ditto_3') {
         API.callConnectionsAPI('retrieveConnection', (dittoConnection) => {
           row.insertCell(0).innerHTML = dittoConnection.name;
         },
