@@ -29,7 +29,7 @@ export function ready() {
 /**
  * Adds a table to a table element
  * @param {HTMLTableElement} table tbody element the row is added to
- * @param {String} key first column text of the row. Acts as id of the row
+ * @param {String} key id attribute that is set for the row
  * @param {boolean} selected if true, the new row will be marked as selected
  * @param {boolean} withClipBoardCopy add a clipboard button at the last column of the row
  * @param {array} columnValues texts for additional columns of the row
@@ -37,7 +37,6 @@ export function ready() {
 export const addTableRow = function(table, key, selected, withClipBoardCopy, ...columnValues) {
   const row = table.insertRow();
   row.id = key;
-  addCellToRow(row, key, key, 0);
   columnValues.forEach((value) => {
     addCellToRow(row, value);
   });

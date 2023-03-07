@@ -209,7 +209,7 @@ export function environmentsJsonChanged(modifiedField) {
   function updateEnvTable() {
     dom.tbodyEnvironments.innerHTML = '';
     Object.keys(environments).forEach((key) => {
-      Utils.addTableRow(dom.tbodyEnvironments, key, key === selectedEnvName);
+      Utils.addTableRow(dom.tbodyEnvironments, key, key === selectedEnvName, false, key);
     });
   }
 }

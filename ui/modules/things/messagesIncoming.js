@@ -59,7 +59,7 @@ function onMessage(messageData) {
 
   Utils.addTableRow(
       dom.tbodyMessagesIncoming,
-      messageData._revision, false, false,
+      messageData.length - 1, false, false, messageData._revision,
       [...messageData['features'] ? Object.keys(messageData.features) : [],
         ...messageData['attributes'] ? Object.keys(messageData.attributes) : []],
       Utils.formatDate(messageData._modified, true),

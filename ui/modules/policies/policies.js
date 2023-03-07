@@ -228,7 +228,7 @@ function refreshWhoAmI() {
   API.callDittoREST('GET', '/whoami')
       .then((whoamiResult) => {
         whoamiResult.subjects.forEach((subject) => {
-          Utils.addTableRow(dom.tbodyWhoami, subject, subject === selectedSubject, false,
+          Utils.addTableRow(dom.tbodyWhoami, subject, subject === selectedSubject, false, subject,
             subject === whoamiResult.defaultSubject ? 'default' : '');
         });
       })
@@ -251,7 +251,7 @@ function setThePolicy(policy) {
   if (thePolicy) {
     let policyHasEntry = false;
     Object.keys(thePolicy.entries).forEach((key) => {
-      Utils.addTableRow(dom.tbodyPolicyEntries, key, key === selectedEntry);
+      Utils.addTableRow(dom.tbodyPolicyEntries, key, key === selectedEntry, false, key);
       if (key === selectedEntry) {
         dom.inputPolicyEntry.value = key;
         setEntry(thePolicy, key);
@@ -278,7 +278,7 @@ function setEntry(policy, entryLabel) {
   if (policy) {
     dom.inputPolicyEntry.value = entryLabel;
     Object.keys(policy.entries[entryLabel].subjects).forEach((key) => {
-      Utils.addTableRow(dom.tbodyPolicySubjects, key, key === selectedSubject, false,
+      Utils.addTableRow(dom.tbodyPolicySubjects, key, key === selectedSubject, false, key,
           JSON.stringify(policy.entries[entryLabel].subjects[key])
       );
       if (key === selectedSubject) {
@@ -287,7 +287,7 @@ function setEntry(policy, entryLabel) {
       }
     });
     Object.keys(policy.entries[entryLabel].resources).forEach((key) => {
-      Utils.addTableRow(dom.tbodyPolicyResources, key, key === selectedResource, false,
+      Utils.addTableRow(dom.tbodyPolicyResources, key, key === selectedResource, false, key,
           JSON.stringify(policy.entries[entryLabel].resources[key])
       );
       if (key === selectedResource) {

@@ -29,7 +29,7 @@ let dom = {
   buttonRetrieveConnectionMetrics: null,
   buttonResetConnectionMetrics: null,
   tableValidationConnections: null,
-  // inputConnectionLogFilter: null,
+  inputConnectionLogFilter: null,
 };
 
 let connectionLogs;
@@ -61,7 +61,7 @@ export function ready() {
   dom.buttonRetrieveConnectionMetrics.onclick = retrieveConnectionMetrics;
   document.querySelector('a[data-bs-target="#tabConnectionMetrics"]').onclick = retrieveConnectionMetrics;
   dom.buttonResetConnectionMetrics.onclick = onResetConnectionMetricsClick;
-  // dom.inputConnectionLogFilter.onchange = onConnectionLogFilterChange;
+  dom.inputConnectionLogFilter.onchange = onConnectionLogFilterChange;
 }
 
 function onResetConnectionMetricsClick() {
@@ -70,7 +70,7 @@ function onResetConnectionMetricsClick() {
 }
 
 function onConnectionLogTableClick(event) {
-  connectionLogDetail.setValue(JSON.stringify(connectionLogs[event.target.parentNode.rowIndex - 1], null, 2), -1);
+  connectionLogDetail.setValue(JSON.stringify(connectionLogs[event.target.parentNode.id], null, 2), -1);
   connectionLogDetail.session.getUndoManager().reset();
 }
 
@@ -93,8 +93,8 @@ function retrieveConnectionMetrics() {
         if (response.connectionMetrics[direction]) {
           Object.keys(response.connectionMetrics[direction]).forEach((type) => {
             let entry = response.connectionMetrics[direction][type];
-            Utils.addTableRow(dom.tbodyConnectionMetrics, direction, false, false, type, 'success', entry.success.PT1M, entry.success.PT1H, entry.success.PT24H);
-            Utils.addTableRow(dom.tbodyConnectionMetrics, direction, false, false, type, 'failure', entry.failure.PT1M, entry.failure.PT1H, entry.failure.PT24H);
+            Utils.addTableRow(dom.tbodyConnectionMetrics, direction, false, false, direction, type, 'success', entry.success.PT1M, entry.success.PT1H, entry.success.PT24H);
+            Utils.addTableRow(dom.tbodyConnectionMetrics, direction, false, false, direction, type, 'failure', entry.failure.PT1M, entry.failure.PT1H, entry.failure.PT24H);
           });
         };
       });
@@ -128,9 +128,10 @@ function fillConnectionLogsTable(entries) {
   dom.tbodyConnectionLogs.innerHTML = '';
   connectionLogDetail.setValue('');
 
-  let filter = connectionLogsFilter ? connectionLogsFilter.match : (a => true);
-  entries.filter(filter).forEach((entry) => {
-    Utils.addTableRow(dom.tbodyConnectionLogs, Utils.formatDate(entry.timestamp, true), false, false, entry.type, entry.level);
+  entries.forEach((entry, index) => {
+    if (!connectionLogsFilter || connectionLogsFilter.match(entry)) {
+      Utils.addTableRow(dom.tbodyConnectionLogs, index, false, false, Utils.formatDate(entry.timestamp, true), entry.type, entry.level);
+    }
   });
   dom.tbodyConnectionLogs.scrollTop = dom.tbodyConnectionLogs.scrollHeight - dom.tbodyConnectionLogs.clientHeight;
 }

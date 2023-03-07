@@ -218,7 +218,7 @@ function onThingChanged(thing) {
         refreshFeature(thing, key);
         thingHasFeature = true;
       }
-      Utils.addTableRow(dom.tbodyFeatures, key, key === dom.crudFeature.idValue);
+      Utils.addTableRow(dom.tbodyFeatures, key, key === dom.crudFeature.idValue, false, key);
       count++;
     }
   }
